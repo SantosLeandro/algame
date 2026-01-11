@@ -6,6 +6,7 @@
 #include "game/gameobject.hpp"
 #include "game/player.hpp"
 #include "game/gui.hpp"
+#include "game/level.hpp"
 
 
 class Game: public ALGame
@@ -21,7 +22,7 @@ public:
     DialogBox *dialogBox;
     Button *button;
     std::string text;
-    ALLEGRO_TRANSFORM transform;
+    Level *level;
    
     
 };

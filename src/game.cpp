@@ -52,34 +52,39 @@ int Game::initialize()
         16,
         16
     );
+
+    level = new Level(&player, tileMap);
+    level->initialize(m_graphics);
     return 0;
 }
 
 void Game::update()
 {
-    player.update();
-    //tileMap->checkCollision(player);
-    tileMap->processCollision(player);
+    level->update();
+    // player.update();
+    // //tileMap->checkCollision(player);
+    // tileMap->processCollision(player);
     
-    player.setPosition(Vector2(
-        player.getPosition().x + player.getVelocity().x,
-        player.getPosition().y + player.getVelocity().y
-    ));
+    // player.setPosition(Vector2(
+    //     player.getPosition().x + player.getVelocity().x,
+    //     player.getPosition().y + player.getVelocity().y
+    // ));
     
     //game logic update code here
 }
 
 void Game::render()
 {
-    al_identity_transform(&transform);
-    al_translate_transform(&transform, player.getPosition().x * -1 + (340 / 2), 0);
-    al_use_transform(&transform);
+    // al_identity_transform(&transform);
+    // al_translate_transform(&transform, player.getPosition().x * -1 + (340 / 2), 0);
+    // al_use_transform(&transform);
     //game rendering code here
     m_graphics.clear();
-    tileMap->render(m_graphics,0,0);
-    player.render(m_graphics);
-    //m_graphics.drawRectangle(playerPosition.x, playerPosition.y, playerPosition.x+200, playerPosition.y+200);
-    //dialogBox->render(m_graphics);
-    m_graphics.drawText(text.c_str(), 0, 0);
+    level->render(m_graphics);
+    // tileMap->render(m_graphics,0,0);
+    // player.render(m_graphics);
+    // //m_graphics.drawRectangle(playerPosition.x, playerPosition.y, playerPosition.x+200, playerPosition.y+200);
+    // //dialogBox->render(m_graphics);
+    // m_graphics.drawText(text.c_str(), 0, 0);
     m_graphics.present();
 }

@@ -83,3 +83,13 @@ void Graphics::setVirtualResolution(int width, int height)
     m_virtualBitmap = al_create_bitmap(width, height);
     al_set_target_bitmap(m_virtualBitmap);
 }
+
+int Graphics::getVirualResolutionWidth()
+{
+    return m_virtualWidth;
+}
+
+int Graphics::getVirualResolutionHeight()
+{
+    return m_virtualHeight;
+}

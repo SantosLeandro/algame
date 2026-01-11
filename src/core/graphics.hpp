@@ -30,6 +30,8 @@ public:
     void drawTexture(Texture *texture, int x, int y);
     void drawTextureRegion(Texture *texture, int sx, int sy, int sw, int sh, int dx, int dy,int flip);
     void setVirtualResolution(int width, int height);
+    int getVirualResolutionWidth();
+    int getVirualResolutionHeight();
 private:
     ALLEGRO_FONT* m_font;
     ALLEGRO_DISPLAY* m_display;

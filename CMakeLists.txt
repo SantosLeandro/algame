@@ -32,6 +32,8 @@ add_executable(game
     src/game/player.cpp
     src/game/gui.cpp
     src/game/tilemap.cpp
+    src/game/level.cpp
+    src/game/camera.cpp
 )
 
 target_include_directories(game PRIVATE
