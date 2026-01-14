@@ -106,3 +106,60 @@ void Player::render(Graphics &graphics)
     graphics.drawRectangle(position.x + boundingBox.x, position.y + boundingBox.y, boundingBox.w, boundingBox.h,Color{0.5f,0.0f,0.0f,0.2f});
     //graphics.drawRectangle(boundingBox.x, boundingBox.y, boundingBox.w, boundingBox.h);
 }
+
+Enemy::Enemy()
+{
+}
+
+Enemy::Enemy(const Vector2 &pos, Texture *tex)
+{
+
+    boundingBox.w = 25;
+    boundingBox.h = 20;
+    boundingBox.x = 0;
+    boundingBox.y = 0;
+    position = pos;
+    texture = tex;
+    std::vector<Frame> idleAnimFrames;
+    for(int i = 0; i < 5; i++)
+    {
+        Frame f;
+        f.x = 5+(26*i);
+        f.y = 310;
+        f.w = 26;
+        f.h = 20;
+        idleAnimFrames.push_back(f);
+    }
+    Animation idleAnimation(idleAnimFrames,10);
+    animationController.addAnimation("idle", idleAnimation);
+    animationController.setCurrentAnimation("idle");
+    speed =1.0f;
+    velocity.y = 1;
+    velocity.x = 1;
+}
+
+Enemy::~Enemy()
+{
+}
+
+void Enemy::update()
+{
+    velocity.y += 1;
+
+    velocity.x = velocity.x * speed;
+
+    //position += velocity;
+}
+
+
+void Enemy::render(Graphics &graphics)
+{
+    animationController.update();
+    Frame frame = animationController.getCurrentFrame();
+    graphics.drawTextureRegion(texture, frame.x, frame.y, frame.w, frame.h, static_cast<int>(position.x), static_cast<int>(position.y),flipState);
+}
+
+void Enemy::onTileCollision(int i)
+{
+    velocity.x *= -1;
+}

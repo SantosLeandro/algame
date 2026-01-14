@@ -13,6 +13,7 @@ public:
     virtual void initialize(Graphics &graphics);
     virtual void update();
     virtual void render(Graphics &graphics);
+    void addGameObject(GameObject *go);
 public:
     Camera m_camera;
     Tilemap *m_mainTilemap;

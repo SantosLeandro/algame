@@ -26,6 +26,7 @@ void Level::update()
     ));
     for(auto &go: m_gameObjects){
         go->update();
+        m_mainTilemap->processCollision(*go);
         go->setPosition({
             go->getPosition().x + go->getVelocity().x,
             go->getPosition().y + go->getVelocity().y
@@ -42,4 +43,9 @@ void Level::render(Graphics &graphics)
         go->render(graphics);
     }
     m_player->render(graphics);
+}
+
+void Level::addGameObject(GameObject *go)
+{
+    m_gameObjects.push_back(go);
 }

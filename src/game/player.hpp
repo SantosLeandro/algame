@@ -20,3 +20,18 @@ private:
     float speed = 2.0f;
     int flipState = 0;
 };
+
+class Enemy: public GameObject
+{
+    public:
+    Enemy();
+    Enemy(const Vector2 &pos, Texture *tex);
+    ~Enemy();
+    void update() override;
+    void render(Graphics &graphics) override;
+    AnimationController animationController;
+    void onTileCollision(int i) override;
+private:
+    float speed = 2.0f;
+    int flipState = 0;
+};

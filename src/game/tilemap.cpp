@@ -79,6 +79,7 @@ void Tilemap::processCollision(GameObject &obj)
                     w,
                     h))
     {
+        obj.onTileCollision(1);
         int sign = (obj.getVelocity().x > 0) ? 1 : -1;
         for(int i=0; i < abs(obj.getVelocity().x); i++)
         {
