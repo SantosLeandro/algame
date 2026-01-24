@@ -30,7 +30,7 @@ class Enemy: public GameObject
     void update() override;
     void render(Graphics &graphics) override;
     AnimationController animationController;
-    void onTileCollision(int i) override;
+    void onTileCollision(int tile , int signX, int signY) override;
 private:
     float speed = 2.0f;
     int flipState = 0;

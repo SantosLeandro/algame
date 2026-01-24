@@ -30,7 +30,7 @@ public:
     Box getBoundingBox() const { return boundingBox; }
     void setOnGround(bool val) { onGround = val; }
     bool isOnGround() const { return onGround; }
-    virtual void onTileCollision(int tile){}
+    virtual void onTileCollision(int tile , int signX, int signY){}
 protected:
     Vector2 position;
     Vector2 velocity;

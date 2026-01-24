@@ -27,6 +27,11 @@ public:
         return m_tiles[ty][tx] != 0;
     }
     bool rectCollides(int x, int y, int w, int h);
+    void setTexture(Texture* texture) { m_tileset = texture; }
+    void setData(const std::vector<std::vector<int>>& data) { m_tiles = data; 
+        m_mapHeight = data.size();
+        m_mapWidth = data.empty() ? 0 : data[0].size();
+    }
 private:
     Texture* m_tileset;
     int m_tileWidth;

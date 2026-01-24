@@ -7,6 +7,8 @@
 #include "game/player.hpp"
 #include "game/gui.hpp"
 #include "game/level.hpp"
+#include "game/objectfactory.hpp"
+#include "core/texturemanager.hpp"
 
 
 class Game: public ALGame
@@ -14,7 +16,7 @@ class Game: public ALGame
 public:
     Game();
     ~Game();
-    int initialize() override;
+    void initialize() override;
     void update() override;
     void render() override;
     Tilemap *tileMap = nullptr;
@@ -23,6 +25,6 @@ public:
     Button *button;
     std::string text;
     Level *level;
-   
-    
+    Camera guiCamera;
+    TextureManager m_textureManager;
 };

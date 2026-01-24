@@ -25,6 +25,7 @@ add_executable(game
     src/core/key.cpp
     src/core/input.cpp
     src/core/joystick.cpp
+    src/core/texturemanager.cpp
 
     src/game.cpp
 

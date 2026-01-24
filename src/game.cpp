@@ -8,23 +8,23 @@ Game::~Game()
 {
 }
 
-int Game::initialize()
+void Game::initialize()
 {
-    ALGame::initialize();
-    
     //game initialization code here
-
+    printf("Game initialized successfully\n");
     m_graphics.setVirtualResolution(320,240);
-
-    m_texture.loadFromFile("texture//samus.png");
-    player = Player(Vector2(100.0f, 100.0f), &m_texture);
+   
+    m_textureManager.load("texture//samus.png");
+    player = Player(Vector2(100.0f, 100.0f), m_textureManager.get("texture//samus.png"));
     dialogBox = new DialogBox(
-        Vector2(150.0f, 150.0f), 
-        Vector2(400.0f, 100.0f),
-        "Dialog Box Example Text",
+        Vector2(75.0f, 50.0f), 
+        Vector2(150.0f, 5.0f),
+        "Hello world",
         m_graphics, 
         Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_font}
     );
+
+    guiCamera = Camera(nullptr, 320, 240);
     
     std::vector<std::vector<int>> tiles = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -32,9 +32,9 @@ int Game::initialize()
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 3, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -60,14 +60,20 @@ int Game::initialize()
         16
     );
 
-    level = new Level(&player, tileMap);
+    GameObjectFactory factory;
+    level = new Level(factory.create("player", Vector2(100,100),m_textureManager), tileMap);
     level->initialize(m_graphics);
     level->m_camera.setMaxWidth(tiles[0].size()*16);
     level->m_camera.setMaxHeight(tiles.size()*16);
+
     
-    level->addGameObject(new Enemy(Vector2(50,150), &m_texture));
-    level->addGameObject(new Enemy(Vector2(250,50), &m_texture));
-    return 0;
+
+    // level->addGameObject(new Enemy(Vector2(50,150), &m_texture));
+    // level->addGameObject(new Enemy(Vector2(250,50), &m_texture));
+    level->addGameObject(factory.create("enemy1", Vector2(50,150),m_textureManager));
+    level->addGameObject(factory.create("enemy1", Vector2(250,50),m_textureManager));
+
+    text = "Hello, ALGame!";
 }
 
 void Game::update()
@@ -97,6 +103,8 @@ void Game::render()
     // player.render(m_graphics);
     // //m_graphics.drawRectangle(playerPosition.x, playerPosition.y, playerPosition.x+200, playerPosition.y+200);
     // //dialogBox->render(m_graphics);
-    m_graphics.drawText(text.c_str(), 0, 0);
+    guiCamera.update();
+    dialogBox->render(m_graphics);
+    //m_graphics.drawText(text.c_str(), 100, 100);
     m_graphics.present();
 }

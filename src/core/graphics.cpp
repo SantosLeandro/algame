@@ -32,21 +32,29 @@ void Graphics::setResolution(int width, int height)
 
 void Graphics::clear()
 {
+    if(!m_virtualBitmap){
+        al_set_target_backbuffer(m_display);
+    } else {
+        al_set_target_bitmap(m_virtualBitmap);
+    }
     al_clear_to_color(al_map_rgb(0, 0, 0));
+    
 }
 
 void Graphics::present()
 {
-    al_flip_display();
-    if(!m_virtualBitmap)
+   
+    if(!m_virtualBitmap){
+        al_flip_display();
         return;
+    }
+        
     al_set_target_backbuffer(m_display);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_scaled_bitmap(m_virtualBitmap,
                           0, 0, m_virtualWidth, m_virtualHeight,
                           0, 0, al_get_display_width(m_display),  al_get_display_height(m_display), 0);
-    al_flip_display();
-    al_set_target_bitmap(m_virtualBitmap);
+    al_flip_display();  
 }
 
 void Graphics::drawText(const char *text, int x, int y)

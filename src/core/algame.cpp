@@ -22,7 +22,7 @@ void ALGame::must_init(bool test, const char *description)
     exit(1);
 }
 
-int ALGame::initialize()
+int ALGame::prepare()
 {
     if(!al_init())
     {
@@ -84,12 +84,13 @@ int ALGame::initialize()
 
 void ALGame::run()
 {
-    if(this->initialize() != 0) {
+    if(this->prepare() != 0) {
          printf("couldn't initialize ALGame\n");
         return;
     } else {
         printf("ALGame initialized successfully\n");
     }
+    this->initialize();
     ALLEGRO_EVENT event;
     al_start_timer(m_timer);
     bool redraw = false;
@@ -121,6 +122,10 @@ void ALGame::run()
             redraw = false;
         }
     }
+}
+
+void ALGame::initialize()
+{
 }
 
 void ALGame::process_input()

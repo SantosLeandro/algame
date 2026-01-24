@@ -18,7 +18,8 @@ public:
     ALGame();
     ~ALGame();
     void run();
-    virtual int initialize();
+    int prepare();
+    virtual void initialize();
     virtual void update();
     virtual void render();
 protected:

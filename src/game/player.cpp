@@ -58,13 +58,15 @@ void Player::update()
     velocity.x = 0;
     //velocity.y = 0;
     if(!isOnGround()){
-         velocity.y += 0.5; // gravity
+         velocity.y += 0.3; // gravity
     }
    
     velocity.y = std::min(velocity.y, 5.0f); // terminal velocity
     if(Input::getInstance().isKeyPressed(Key::UP) || Joystick::getInstance().isButtonDown(JoystickButton::DPAD_UP))
     {
-        velocity.y -= 7.0f;
+        if(velocity.y >= 0 && velocity.y < 1.0f) {
+            velocity.y -= 6.5f;
+        }
     } 
     if(Input::getInstance().isKeyDown(Key::DOWN) || Joystick::getInstance().isButtonDown(JoystickButton::DPAD_DOWN))
     {
@@ -91,7 +93,7 @@ void Player::update()
 
 void Player::render(Graphics &graphics)
 {
-    if(velocity.x != 0.0f || velocity.y != 0.0f)
+    if(velocity.x != 0.0f && velocity.y >= 0.0f && velocity.y < 1.0f)
     {
         animationController.setCurrentAnimation("walk");
     }
@@ -159,7 +161,7 @@ void Enemy::render(Graphics &graphics)
     graphics.drawTextureRegion(texture, frame.x, frame.y, frame.w, frame.h, static_cast<int>(position.x), static_cast<int>(position.y),flipState);
 }
 
-void Enemy::onTileCollision(int i)
+void Enemy::onTileCollision(int tile , int signX, int signY)
 {
-    velocity.x *= -1;
+    velocity.x = signX * -1 * speed;
 }

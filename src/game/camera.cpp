@@ -27,7 +27,13 @@ void Camera::setMaxHeight(int h)
 
 void Camera::update()
 {
-    if (!m_target) return;
+    if (!m_target)
+    {
+        al_identity_transform(&m_transform);
+        al_translate_transform(&m_transform, 0, 0);
+        al_use_transform(&m_transform);
+        return;
+    }
 
     float targetX = m_target->getPosition().x - (m_w / 2.0f);
     float targetY = m_target->getPosition().y - (m_h / 2.0f);

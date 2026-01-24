@@ -79,7 +79,7 @@ void Tilemap::processCollision(GameObject &obj)
                     w,
                     h))
     {
-        obj.onTileCollision(1);
+       
         int sign = (obj.getVelocity().x > 0) ? 1 : -1;
         for(int i=0; i < abs(obj.getVelocity().x); i++)
         {
@@ -94,8 +94,9 @@ void Tilemap::processCollision(GameObject &obj)
                 ));
             }
             else
-            {
+            { 
                 obj.setVelocity(Vector2(0, obj.getVelocity().y));
+                obj.onTileCollision(1,sign,0);
                 break;
             }
         }
