@@ -10,6 +10,7 @@ class Camera
     public:
         Camera();
         Camera(GameObject *target, int w, int h);
+        void setTarget(GameObject *target);
         void setMaxWidth(int w);
         void setMaxHeight(int h);
         void update();

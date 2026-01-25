@@ -14,6 +14,7 @@ public:
     virtual void update();
     virtual void render(Graphics &graphics);
     void addGameObject(GameObject *go);
+    void setCameraTarget(GameObject *target);
 public:
     Camera m_camera;
     Tilemap *m_mainTilemap;

@@ -9,6 +9,7 @@
 #include "game/level.hpp"
 #include "game/objectfactory.hpp"
 #include "core/texturemanager.hpp"
+#include "game/maploader.hpp"
 
 
 class Game: public ALGame
@@ -27,4 +28,5 @@ public:
     Level *level;
     Camera guiCamera;
     TextureManager m_textureManager;
+    MapLoader m_mapLoader;
 };

@@ -14,6 +14,8 @@ Level::Level(GameObject *player, Tilemap *mainTilemap)
 void Level::initialize(Graphics &graphics)
 {
     m_camera = Camera(m_player, graphics.getVirualResolutionWidth(), graphics.getVirualResolutionHeight());
+    m_camera.setMaxWidth(m_mainTilemap->getMapWidth() * m_mainTilemap->getTileWidth());
+    m_camera.setMaxHeight(m_mainTilemap->getMapHeight() * m_mainTilemap->getTileHeight());
 }
 
 void Level::update()
@@ -39,6 +41,7 @@ void Level::render(Graphics &graphics)
 {
     m_camera.update();
     m_mainTilemap->render(graphics,0,0);
+    
     for(auto &go: m_gameObjects){
         go->render(graphics);
     }
@@ -48,4 +51,9 @@ void Level::render(Graphics &graphics)
 void Level::addGameObject(GameObject *go)
 {
     m_gameObjects.push_back(go);
+}
+
+void Level::setCameraTarget(GameObject *target)
+{
+    m_camera.setTarget(target);
 }

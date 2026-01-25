@@ -15,6 +15,7 @@ void Game::initialize()
     m_graphics.setVirtualResolution(320,240);
    
     m_textureManager.load("texture//samus.png");
+    m_textureManager.load("texture//tileset_1616.png");
     player = Player(Vector2(100.0f, 100.0f), m_textureManager.get("texture//samus.png"));
     dialogBox = new DialogBox(
         Vector2(75.0f, 50.0f), 
@@ -59,19 +60,22 @@ void Game::initialize()
         16,
         16
     );
-
     GameObjectFactory factory;
-    level = new Level(factory.create("player", Vector2(100,100),m_textureManager), tileMap);
+
+    level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
+
+    printf("Camera target set\n");
+    //level = new Level(factory.create("player", Vector2(100,100),m_textureManager), tileMap);
     level->initialize(m_graphics);
-    level->m_camera.setMaxWidth(tiles[0].size()*16);
-    level->m_camera.setMaxHeight(tiles.size()*16);
+    // level->m_camera.setMaxWidth(tiles[0].size()*16);
+    // level->m_camera.setMaxHeight(tiles.size()*16);
 
     
 
     // level->addGameObject(new Enemy(Vector2(50,150), &m_texture));
     // level->addGameObject(new Enemy(Vector2(250,50), &m_texture));
-    level->addGameObject(factory.create("enemy1", Vector2(50,150),m_textureManager));
-    level->addGameObject(factory.create("enemy1", Vector2(250,50),m_textureManager));
+    // level->addGameObject(factory.create("enemy1", Vector2(50,150),m_textureManager));
+    // level->addGameObject(factory.create("enemy1", Vector2(250,50),m_textureManager));
 
     text = "Hello, ALGame!";
 }
@@ -104,7 +108,7 @@ void Game::render()
     // //m_graphics.drawRectangle(playerPosition.x, playerPosition.y, playerPosition.x+200, playerPosition.y+200);
     // //dialogBox->render(m_graphics);
     guiCamera.update();
-    dialogBox->render(m_graphics);
+    //dialogBox->render(m_graphics);
     //m_graphics.drawText(text.c_str(), 100, 100);
     m_graphics.present();
 }

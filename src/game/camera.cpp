@@ -15,6 +15,11 @@ Camera::Camera(GameObject *target, int w, int h)
     m_maxH = 1000;
 }
 
+void Camera::setTarget(GameObject *target)
+{
+    m_target = target;
+}
+
 void Camera::setMaxWidth(int w)
 {
     m_maxW = w;
