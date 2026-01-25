@@ -2,6 +2,7 @@
 #include "../core/graphics.hpp"
 #include "../core/texture.hpp"
 #include "gameobject.hpp"
+#include <math.h>
 
 Tilemap::Tilemap()
 {
@@ -62,7 +63,7 @@ void Tilemap::processCollision(GameObject &obj)
             {
                 obj.setPosition(Vector2(
                     obj.getPosition().x,
-                    obj.getPosition().y + sign
+                    floor(obj.getPosition().y) + sign
                 ));
             }
             else
@@ -89,7 +90,7 @@ void Tilemap::processCollision(GameObject &obj)
                              h))
             {
                 obj.setPosition(Vector2(
-                    obj.getPosition().x + sign,
+                    floor(obj.getPosition().x) + sign,
                     obj.getPosition().y
                 ));
             }

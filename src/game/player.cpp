@@ -14,6 +14,9 @@ Player::Player(const Vector2 &pos, Texture *tex) : GameObject(pos, tex)
     boundingBox.x = 34;
     boundingBox.y = 26;
 
+    position.x = pos.x - boundingBox.x;
+    position.y = pos.y - boundingBox.y;
+
     std::vector<Frame> walkAnimFrames;
 
     for(int i = 0; i < 10; i++)
