@@ -86,7 +86,7 @@ Level* MapLoader::load(const char* filename, Graphics& graphics, TextureManager 
                 std::string goName = go["name"].get<std::string>();
                 printf("Creating game object: %s\n", goName.c_str());
                 int goX = go["x"].get<int>();
-                int goY = go["y"].get<int>() - 5;
+                int goY = go["y"].get<int>();
                 auto obj = factory.create(goName,Vector2(goX,goY),textureManager);
 
                 if(goName == "player") {

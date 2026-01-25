@@ -55,14 +55,14 @@ void Tilemap::processCollision(GameObject &obj)
         int sign = (obj.getVelocity().y > 0) ? 1 : -1;
         for(int i=0; i < abs(obj.getVelocity().y); i++)
         {
-            if(rectCollides(obj.getPosition().x + obj.getBoundingBox().x,
-                             obj.getPosition().y + obj.getBoundingBox().y - sign,
+            if(!rectCollides(obj.getPosition().x + obj.getBoundingBox().x,
+                             obj.getPosition().y + obj.getBoundingBox().y + sign,
                              w,
                              h))
             {
                 obj.setPosition(Vector2(
                     obj.getPosition().x,
-                    obj.getPosition().y - sign
+                    obj.getPosition().y + sign
                 ));
             }
             else
