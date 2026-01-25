@@ -64,9 +64,10 @@ void Player::update()
     velocity.y = std::min(velocity.y, 5.0f); // terminal velocity
     if(Input::getInstance().isKeyPressed(Key::UP) || Joystick::getInstance().isButtonDown(JoystickButton::DPAD_UP))
     {
-        if(velocity.y >= 0 && velocity.y < 1.0f) {
+        // if(velocity.y >= 0 && velocity.y < 1.0f) {
             velocity.y -= 6.5f;
-        }
+            this->setOnGround(false);
+        // }
     } 
     if(Input::getInstance().isKeyDown(Key::DOWN) || Joystick::getInstance().isButtonDown(JoystickButton::DPAD_DOWN))
     {
@@ -147,6 +148,9 @@ Enemy::~Enemy()
 void Enemy::update()
 {
     velocity.y += 1;
+    if(isOnGround()) {
+        velocity.y = 0;
+    }
 
     velocity.x = velocity.x * speed;
 
