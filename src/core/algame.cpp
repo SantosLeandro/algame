@@ -50,7 +50,7 @@ int ALGame::prepare()
         return 1;
     }
 
-    m_disp = al_create_display(1280, 720);
+    m_disp = al_create_display(1366, 768);
     if(!m_disp)
     {
         printf("couldn't initialize display\n");

@@ -3,6 +3,9 @@
 
 Camera::Camera()
 {
+    m_smooth = 0.08f;
+    m_maxW = 1000;
+    m_maxH = 1000;
 }
 
 Camera::Camera(GameObject *target, int w, int h)
@@ -13,6 +16,7 @@ Camera::Camera(GameObject *target, int w, int h)
     m_smooth = 0.08f;
     m_maxW = 1000;
     m_maxH = 1000;
+    //m_offset = Vector2(0,0);
 }
 
 void Camera::setTarget(GameObject *target)
@@ -46,8 +50,8 @@ void Camera::update()
     m_position.x += (targetX - m_position.x) * m_smooth;
     m_position.y += (targetY - m_position.y) * m_smooth;
 
-    float renderX = floor(m_position.x);
-    float renderY = floor(m_position.y);
+    float renderX = floor(m_position.x) + m_offset.x;
+    float renderY = floor(m_position.y) + m_offset.y;
 
     renderX = std::max(0.0f, std::min(renderX, static_cast<float>(m_maxW - m_w)));
     renderY = std::max(0.0f, std::min(renderY, static_cast<float>(m_maxH - m_h)));

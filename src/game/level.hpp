@@ -15,6 +15,7 @@ public:
     virtual void render(Graphics &graphics);
     void addGameObject(GameObject *go);
     void setCameraTarget(GameObject *target);
+    Camera& getCamera() { return m_camera; }
 public:
     Camera m_camera;
     Tilemap *m_mainTilemap;

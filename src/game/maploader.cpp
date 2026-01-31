@@ -91,6 +91,7 @@ Level* MapLoader::load(const char* filename, Graphics& graphics, TextureManager 
 
                 if(goName == "player") {
                     level->setCameraTarget(obj);
+                    level->getCamera().setOffset({42,0});
                     level->m_player = obj;
                 } else {
                     level->addGameObject(obj);

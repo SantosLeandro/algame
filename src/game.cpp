@@ -12,7 +12,7 @@ void Game::initialize()
 {
     //game initialization code here
     printf("Game initialized successfully\n");
-    m_graphics.setVirtualResolution(320,240);
+    m_graphics.setVirtualResolution(426,240);
    
     m_textureManager.load("texture//samus.png");
     m_textureManager.load("texture//tileset_1616.png");
@@ -25,7 +25,7 @@ void Game::initialize()
         Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_font}
     );
 
-    guiCamera = Camera(nullptr, 320, 240);
+    guiCamera = Camera(nullptr, 426, 240);
     
     std::vector<std::vector<int>> tiles = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -64,7 +64,6 @@ void Game::initialize()
 
     level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
 
-    printf("Camera target set\n");
     //level = new Level(factory.create("player", Vector2(100,100),m_textureManager), tileMap);
     level->initialize(m_graphics);
     // level->m_camera.setMaxWidth(tiles[0].size()*16);

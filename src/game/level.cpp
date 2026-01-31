@@ -13,7 +13,10 @@ Level::Level(GameObject *player, Tilemap *mainTilemap)
 
 void Level::initialize(Graphics &graphics)
 {
-    m_camera = Camera(m_player, graphics.getVirualResolutionWidth(), graphics.getVirualResolutionHeight());
+    //m_camera = Camera(m_player, graphics.getVirualResolutionWidth(), graphics.getVirualResolutionHeight());
+    m_camera.setTarget(m_player);
+    m_camera.setWidth(graphics.getVirualResolutionWidth());
+    m_camera.setHeight(graphics.getVirualResolutionHeight());
     m_camera.setMaxWidth(m_mainTilemap->getMapWidth() * m_mainTilemap->getTileWidth());
     m_camera.setMaxHeight(m_mainTilemap->getMapHeight() * m_mainTilemap->getTileHeight());
 }
