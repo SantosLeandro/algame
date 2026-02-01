@@ -11,7 +11,7 @@ DialogBox::DialogBox(const Vector2 &pos, const Vector2 &size, const std::string 
 void DialogBox::render(Graphics &graphics)
 {
     graphics.drawRectangle(static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
-                           static_cast<int>(m_pos.x + m_size.x), static_cast<int>(m_pos.y + m_size.y),Color{0.2f,0.2f,0.2f,0.7f});
+                           static_cast<int>(m_pos.x + m_size.x), static_cast<int>(m_pos.y + m_size.y),m_backgroundColor);
     graphics.drawText(m_text.c_str(), static_cast<int>(m_pos.x + 10), static_cast<int>(m_pos.y + 10));
 }
 

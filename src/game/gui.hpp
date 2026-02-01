@@ -21,11 +21,13 @@ public:
     virtual void onOpen() {}
     virtual void onClose() {}
     virtual void onClick() {}
+    void setBackgroundColor(const Color& color) { m_backgroundColor = color; }
 private:
     Vector2 m_pos;
     Vector2 m_size;
     std::string m_text;
     Font m_font;
+    Color m_backgroundColor{0.2f, 0.2f, 0.2f, 0.7f};
 };
 
 class Button:public DialogBox {

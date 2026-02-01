@@ -15,6 +15,7 @@ public:
     ~Player();
     void update() override;
     void render(Graphics &graphics) override;
+    void onTileCollision(int tile , int signX, int signY) override;
     AnimationController animationController;
 private:
     float speed = 2.0f;

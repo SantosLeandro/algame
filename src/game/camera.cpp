@@ -47,8 +47,21 @@ void Camera::update()
     float targetX = m_target->getPosition().x - (m_w / 2.0f);
     float targetY = m_target->getPosition().y - (m_h / 2.0f);
 
+    if(!m_followTarget) {
+        targetX = m_positionTarget.x - (m_w / 2.0f);
+        targetY = m_positionTarget.y - (m_h / 2.0f);
+    }
+
     m_position.x += (targetX - m_position.x) * m_smooth;
     m_position.y += (targetY - m_position.y) * m_smooth;
+
+    if(!m_followTarget) {
+        float distX = targetX - m_position.x;
+        float distY = targetY - m_position.y;
+        if (std::abs(distX) < 1.0f && std::abs(distY) < 1.0f) {
+            m_followTarget = true;
+        }
+    }
 
     float renderX = floor(m_position.x) + m_offset.x;
     float renderY = floor(m_position.y) + m_offset.y;
@@ -59,4 +72,10 @@ void Camera::update()
     al_identity_transform(&m_transform);
     al_translate_transform(&m_transform, -renderX, -renderY);
     al_use_transform(&m_transform);
+}
+
+void Camera::moveTo(const Vector2 &pos)
+{
+    m_positionTarget = pos;
+    m_followTarget = false;
 }

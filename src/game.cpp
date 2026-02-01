@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "game/levelmanager.hpp"
 
 Game::Game()
 {
@@ -6,6 +7,7 @@ Game::Game()
 
 Game::~Game()
 {
+    //m_textureManager.release();
 }
 
 void Game::initialize()
@@ -18,12 +20,13 @@ void Game::initialize()
     m_textureManager.load("texture//tileset_1616.png");
     player = Player(Vector2(100.0f, 100.0f), m_textureManager.get("texture//samus.png"));
     dialogBox = new DialogBox(
-        Vector2(75.0f, 50.0f), 
-        Vector2(150.0f, 5.0f),
-        "Hello world",
+        Vector2(0.0f, 0.0f), 
+        Vector2(426, 20.0f),
+        "Items: 0   Health: 100%   Ammo: 50",
         m_graphics, 
         Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_font}
     );
+    dialogBox->setBackgroundColor(Color{0.0f, 0.0f, 0.0f, 1.0f});
 
     guiCamera = Camera(nullptr, 426, 240);
     
@@ -52,20 +55,26 @@ void Game::initialize()
         {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
     };
 
-    Texture* tileset = new Texture();
-    tileset->loadFromFile("texture//tileset.png");
-    tileMap = new Tilemap(
-        tiles,
-        tileset,
-        16,
-        16
-    );
+    // Texture* tileset = new Texture();
+    // tileset->loadFromFile("texture//tileset.png");
+    // tileMap = new Tilemap(
+    //     tiles,
+    //     tileset,
+    //     16,
+    //     16
+    // );
     GameObjectFactory factory;
 
-    level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
+    
+    
+   
+    //LevelManager::getInstance().loadLevel("level//room02.json",m_graphics, m_textureManager, factory);
+    LevelManager::getInstance().loadLevel("level//demolevel.json",m_graphics, m_textureManager, factory);
+    //LevelManager::getInstance().getCurrentLevel()->m_player = &player;
+    //level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
 
     //level = new Level(factory.create("player", Vector2(100,100),m_textureManager), tileMap);
-    level->initialize(m_graphics);
+    //level->initialize(m_graphics);
     // level->m_camera.setMaxWidth(tiles[0].size()*16);
     // level->m_camera.setMaxHeight(tiles.size()*16);
 
@@ -77,11 +86,14 @@ void Game::initialize()
     // level->addGameObject(factory.create("enemy1", Vector2(250,50),m_textureManager));
 
     text = "Hello, ALGame!";
+    // level->getCamera().setSmooth(0.05f);
+    // level->getCamera().moveTo(Vector2(500,500));
 }
 
 void Game::update()
 {
-    level->update();
+    LevelManager::getInstance().getCurrentLevel()->update();
+    // level->update();
     // player.update();
     // //tileMap->checkCollision(player);
     // tileMap->processCollision(player);
@@ -101,13 +113,14 @@ void Game::render()
     // al_use_transform(&transform);
     //game rendering code here
     m_graphics.clear();
-    level->render(m_graphics);
+    LevelManager::getInstance().getCurrentLevel()->render(m_graphics);
+    // level->render(m_graphics);
     // tileMap->render(m_graphics,0,0);
     // player.render(m_graphics);
     // //m_graphics.drawRectangle(playerPosition.x, playerPosition.y, playerPosition.x+200, playerPosition.y+200);
     // //dialogBox->render(m_graphics);
     guiCamera.update();
-    //dialogBox->render(m_graphics);
+    dialogBox->render(m_graphics);
     //m_graphics.drawText(text.c_str(), 100, 100);
     m_graphics.present();
 }

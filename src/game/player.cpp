@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "../core/input.hpp"
 #include "../core/joystick.hpp"
+#include "levelmanager.hpp"
 
 Player::Player()
 {
@@ -112,6 +113,18 @@ void Player::render(Graphics &graphics)
     graphics.drawRectangle(position.x + boundingBox.x, position.y + boundingBox.y, boundingBox.w, boundingBox.h,Color{0.5f,0.0f,0.0f,0.2f});
     //graphics.drawRectangle(boundingBox.x, boundingBox.y, boundingBox.w, boundingBox.h);
 }
+
+void Player::onTileCollision(int tile , int signX, int signY)
+{
+    printf("Player collided with tile: %d\n", tile);
+    if(tile == 1){
+       LevelManager::getInstance().changeCurrentLevel("level//demolevel.json");
+        
+       LevelManager::getInstance().getCurrentLevel()->m_player = this;
+       LevelManager::getInstance().getCurrentLevel()->getCamera().setTarget(this);
+    }
+}
+
 
 Enemy::Enemy()
 {

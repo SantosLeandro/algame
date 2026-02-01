@@ -84,10 +84,11 @@ void Graphics::drawTextureRegion(Texture *texture, int sx, int sy, int sw, int s
 
 void Graphics::setVirtualResolution(int width, int height)
 {
+    printf("Setting virtual resolution to %dx%d\n", width, height);
     m_virtualWidth = width;
     m_virtualHeight = height;
-    // if (m_virtualBitmap)
-    //     al_destroy_bitmap(m_virtualBitmap);
+    if (m_virtualBitmap)
+        al_destroy_bitmap(m_virtualBitmap);
     m_virtualBitmap = al_create_bitmap(width, height);
     al_set_target_bitmap(m_virtualBitmap);
 }

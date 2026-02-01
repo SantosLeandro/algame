@@ -17,9 +17,14 @@ class Camera
         void setMaxHeight(int h);
         void setOffset(const Vector2& offset) { m_offset = offset; }
         void update();
+        void moveTo(const Vector2& pos);
+        void setSmooth(float smooth) { m_smooth = smooth; }
+        void enableFollowTarget(bool enable) { m_followTarget = enable; }
     protected:
         ALLEGRO_TRANSFORM m_transform;
         GameObject *m_target;
+        bool m_followTarget = true;
+        Vector2 m_positionTarget;
         Vector2 m_offset;
         int m_w;
         int m_h;

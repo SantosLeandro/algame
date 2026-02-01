@@ -36,6 +36,7 @@ add_executable(game
     src/game/level.cpp
     src/game/camera.cpp
     src/game/maploader.cpp
+    src/game/levelmanager.cpp
 )
 
 target_include_directories(game PRIVATE

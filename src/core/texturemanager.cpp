@@ -8,13 +8,19 @@ TextureManager::TextureManager()
 
 bool TextureManager::load(const std::string &filename)
 {
-    std::unique_ptr<Texture> tex = std::make_unique<Texture>();
-    if (!tex->loadFromFile(filename.c_str())) {
+    if (m_texturemap.find(filename) != m_texturemap.end())
+    {
+        return true;
+    }
+
+    auto tex = std::make_unique<Texture>();
+    if (!tex->loadFromFile(filename.c_str()))
+    {
         std::cerr << "Falha ao carregar textura: " << filename << "\n";
         return false;
     }
-    
-    m_texturemap[filename] = std::move(tex);
+
+    m_texturemap.emplace(filename, std::move(tex));
     return true;
 }
 
