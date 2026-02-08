@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../core/vector2.hpp"
+#include <string>
+#include <unordered_map>
 
 class Graphics;
 class Texture;
@@ -31,7 +33,25 @@ public:
     void setOnGround(bool val) { onGround = val; }
     bool isOnGround() const { return onGround; }
     virtual void onTileCollision(int tile , int signX, int signY){}
+    void setTag(const std::string& t) { tag = t; }
+    std::string getTag() const { return tag; }
+    std::string getName() const { return name; }
+    void setName(const std::string& n) { name = n; }
+    virtual void onCollision(GameObject* other){}
+    void setAttribute(const std::string& key, const std::string& value) {
+        m_attributes[key] = value;
+    }
+    std::string getAttribute(const std::string& key) const {
+        auto it = m_attributes.find(key);
+        if (it != m_attributes.end()) {
+            return it->second;
+        }
+        return "";
+    }
 protected:
+    std::unordered_map<std::string, std::string> m_attributes;
+    std::string name;
+    std::string tag;
     Vector2 position;
     Vector2 velocity;
     Texture* texture;

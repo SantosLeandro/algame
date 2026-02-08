@@ -4,6 +4,7 @@
 #include "../core/texturemanager.hpp"
 #include "gameobject.hpp"
 #include "player.hpp"
+#include "door.hpp"
 
 class GameObjectFactory
 {
@@ -16,7 +17,10 @@ public:
         } else if(name == "enemy1"){
             Texture* tex = textureManeger.get("texture//samus.png");
             return new Enemy(position, tex);
+        } else if(name == "door"){
+            Texture* tex = textureManeger.get("texture//samus.png");
+            return new Door(position, tex);
         }
-        return nullptr;
+        return new GameObject(position, textureManeger.get("texture//samus.png"));
     }
 };

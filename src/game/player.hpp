@@ -16,10 +16,12 @@ public:
     void update() override;
     void render(Graphics &graphics) override;
     void onTileCollision(int tile , int signX, int signY) override;
+    void onCollision(GameObject* other) override;
     AnimationController animationController;
 private:
     float speed = 2.0f;
     int flipState = 0;
+    bool fadeIn = false;
 };
 
 class Enemy: public GameObject
@@ -35,4 +37,5 @@ class Enemy: public GameObject
 private:
     float speed = 2.0f;
     int flipState = 0;
+   
 };

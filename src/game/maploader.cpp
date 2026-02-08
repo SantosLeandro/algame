@@ -94,6 +94,17 @@ Level* MapLoader::load(const char* filename, Graphics& graphics, TextureManager 
                     level->getCamera().setOffset({42,0});
                     level->m_player = obj;
                 } else {
+                    if(goName == "door"){
+                       obj->setTag("door");
+                       if(go.contains("props")) {
+                        const json &props = go["props"];
+                        if (props.contains("next"))
+                            obj->setAttribute("next", props["next"].get<std::string>());
+                        
+                        if (props.contains("target"))
+                            obj->setAttribute("target", props["target"].get<std::string>());
+                       }
+                    }
                     level->addGameObject(obj);
                 }
                 // if(goName == cameraTarget){

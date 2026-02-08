@@ -31,6 +31,7 @@ add_executable(game
 
     src/game/gameobject.cpp
     src/game/player.cpp
+    src/game/door.cpp
     src/game/gui.cpp
     src/game/tilemap.cpp
     src/game/level.cpp

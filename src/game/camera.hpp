@@ -20,6 +20,7 @@ class Camera
         void moveTo(const Vector2& pos);
         void setSmooth(float smooth) { m_smooth = smooth; }
         void enableFollowTarget(bool enable) { m_followTarget = enable; }
+        void setPosition(const Vector2& pos) { m_position = pos; }
     protected:
         ALLEGRO_TRANSFORM m_transform;
         GameObject *m_target;

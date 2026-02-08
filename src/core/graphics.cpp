@@ -50,10 +50,21 @@ void Graphics::present()
     }
         
     al_set_target_backbuffer(m_display);
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_clear_to_color(al_map_rgb(0, 0, 0)); 
     al_draw_scaled_bitmap(m_virtualBitmap,
                           0, 0, m_virtualWidth, m_virtualHeight,
                           0, 0, al_get_display_width(m_display),  al_get_display_height(m_display), 0);
+    if(m_duration > 0) {
+        m_elapsed += 16; // Assuming 60 FPS, adjust as needed
+        float alpha = 1.0f - (static_cast<float>(m_elapsed) / m_duration);
+        if (alpha < 0.0f) alpha = 0.0f;
+        al_draw_filled_rectangle(0, 0, al_get_display_width(m_display), al_get_display_height(m_display), al_map_rgba_f(0.0, 0.0, 0.0, alpha));
+        if(m_elapsed >= m_duration) {
+            m_duration = 0;
+            m_elapsed = 0;
+        }
+    }                 
+   
     al_flip_display();  
 }
 
@@ -101,4 +112,11 @@ int Graphics::getVirualResolutionWidth()
 int Graphics::getVirualResolutionHeight()
 {
     return m_virtualHeight;
+}
+
+void Graphics::fadeIn(int duration)
+{
+    m_elapsed = 0;
+    m_duration = duration;
+   
 }

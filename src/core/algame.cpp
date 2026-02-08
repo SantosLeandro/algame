@@ -8,7 +8,6 @@ ALGame::ALGame()
 
 ALGame::~ALGame()
 {
-    al_destroy_font(m_font);
     al_destroy_display(m_disp);
     al_destroy_timer(m_timer);
     al_destroy_event_queue(m_queue);
@@ -54,13 +53,6 @@ int ALGame::prepare()
     if(!m_disp)
     {
         printf("couldn't initialize display\n");
-        return 1;
-    }
-
-    m_font = al_create_builtin_font();
-    if(!m_font)
-    {
-        printf("couldn't initialize font\n");
         return 1;
     }
 

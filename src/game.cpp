@@ -68,8 +68,9 @@ void Game::initialize()
     
     
    
-    //LevelManager::getInstance().loadLevel("level//room02.json",m_graphics, m_textureManager, factory);
-    LevelManager::getInstance().loadLevel("level//demolevel.json",m_graphics, m_textureManager, factory);
+    LevelManager::getInstance().loadLevel("level//room_01.json",m_graphics, m_textureManager, factory);
+    LevelManager::getInstance().loadLevel("level//room_02.json",m_graphics, m_textureManager, factory);
+    //LevelManager::getInstance().loadLevel("level//room_02.json",m_graphics, m_textureManager, factory);
     //LevelManager::getInstance().getCurrentLevel()->m_player = &player;
     //level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
 

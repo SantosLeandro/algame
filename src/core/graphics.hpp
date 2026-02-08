@@ -32,7 +32,10 @@ public:
     void setVirtualResolution(int width, int height);
     int getVirualResolutionWidth();
     int getVirualResolutionHeight();
+    void fadeIn(int duration);
 private:
+    int m_elapsed = 0;
+    int m_duration = 0; 
     ALLEGRO_FONT* m_font;
     ALLEGRO_DISPLAY* m_display;
     ALLEGRO_BITMAP* m_virtualBitmap;

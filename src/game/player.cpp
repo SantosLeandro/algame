@@ -98,6 +98,11 @@ void Player::update()
 
 void Player::render(Graphics &graphics)
 {
+    if(fadeIn) {
+        graphics.fadeIn(200); // 1 second fade-in
+        fadeIn = false; // reset fade-in flag
+    }
+
     if(velocity.x != 0.0f && velocity.y >= 0.0f && velocity.y < 1.0f)
     {
         animationController.setCurrentAnimation("walk");
@@ -116,23 +121,44 @@ void Player::render(Graphics &graphics)
 
 void Player::onTileCollision(int tile , int signX, int signY)
 {
-    printf("Player collided with tile: %d\n", tile);
-    if(tile == 1){
-       LevelManager::getInstance().changeCurrentLevel("level//demolevel.json");
+    // printf("Player collided with tile: %d\n", tile);
+    // if(tile == 1){
+    //    LevelManager::getInstance().changeCurrentLevel("level//demolevel.json");
         
-       LevelManager::getInstance().getCurrentLevel()->m_player = this;
-       LevelManager::getInstance().getCurrentLevel()->getCamera().setTarget(this);
-    }
+    //    LevelManager::getInstance().getCurrentLevel()->m_player = this;
+    //    LevelManager::getInstance().getCurrentLevel()->getCamera().setTarget(this);
+    // }
 }
 
-
-Enemy::Enemy()
+void Player::onCollision(GameObject* other)
 {
+    printf("Player collided with object: %s\n", other->getTag().c_str());
+    if(other->getTag() == "door"){
+        auto next = other->getAttribute("next");
+        //concat do next with "level//" and ".json"
+        std::string nextLevel = "level//" + next + ".json";
+        LevelManager::getInstance().changeCurrentLevel(nextLevel.c_str());
+        Door* go =(Door*)LevelManager::getInstance().getCurrentLevel()->getGameObjectByName("door");
+            if(go) {
+                printf("Found door object at position: (%f, %f)\n", go->getPosition().x, go->getPosition().y);
+                Vector2 doorPos = go->getPosition();
+                if(velocity.x > 0) {
+                    doorPos.x += go->getBoundingBox().w;
+                } else if(velocity.x < 0) {
+                    doorPos.x -= boundingBox.w;
+                }
+                setPosition(Vector2(doorPos.x - boundingBox.x , doorPos.y - boundingBox.y));
+                LevelManager::getInstance().getCurrentLevel()->getCamera().setPosition(doorPos);
+                fadeIn = true;
+            }
+        LevelManager::getInstance().getCurrentLevel()->m_player = this;
+        LevelManager::getInstance().getCurrentLevel()->getCamera().setTarget(this);
+    }
 }
 
 Enemy::Enemy(const Vector2 &pos, Texture *tex)
 {
-
+    name = "enemy1";
     boundingBox.w = 25;
     boundingBox.h = 20;
     boundingBox.x = 0;
@@ -158,6 +184,10 @@ Enemy::Enemy(const Vector2 &pos, Texture *tex)
 }
 
 Enemy::~Enemy()
+{
+}
+
+Enemy::Enemy()
 {
 }
 
