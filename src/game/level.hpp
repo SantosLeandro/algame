@@ -36,13 +36,15 @@ public:
         return nullptr;
     }
 
-    void transition();
+    void fadeIn();
 
 public:
+    Vector2 fadeInPosition;
     bool m_transitioning = false;
-    int duration = 500;
-    int elapsed = 0;
+    int m_duration = 1000;
+    float m_elapsed = 1.0f;
     Camera m_camera;
+    Camera m_cameraStatic;
     Tilemap *m_mainTilemap;
     GameObject *m_player;
     std::vector<GameObject*> m_bullets;

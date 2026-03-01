@@ -1,0 +1,34 @@
+cp /lib64/liballegro.so.5.2                .
+cp /lib64/liballegro_primitives.so.5.2     .
+cp /lib64/liballegro_image.so.5.2          .
+cp /lib64/liballegro_font.so.5.2           .
+cp /lib64/liballegro_ttf.so.5.2            .
+cp /lib64/liballegro_audio.so.5.2          .
+cp /lib64/liballegro_acodec.so.5.2         .
+
+cp /lib64/libfreeimage.so.3                .
+cp /lib64/libpng16.so.16                   .
+cp /lib64/libjpeg.so.8                     .
+cp /lib64/libwebp.so.7                     .
+cp /lib64/libwebpmux.so.3                  .
+cp /lib64/libsharpyuv.so.0                 .
+cp /lib64/libopenjp2.so.7                  .
+cp /lib64/libraw.so.23                     .
+cp /lib64/libjxrglue.so.0                  .
+cp /lib64/libjpegxr.so.0                   .
+
+cp /lib64/libfreetype.so.6                 .
+cp /lib64/liblcms2.so.2                    .
+
+cp /lib64/libsndfile.so.1                  .
+cp /lib64/libogg.so.0                      .
+cp /lib64/libvorbis.so.0                   .
+cp /lib64/libvorbisenc.so.2                .
+cp /lib64/libvorbisfile.so.3               .
+cp /lib64/libopus.so.0                     .
+cp /lib64/libopusfile.so.0                 .
+cp /lib64/libFLAC.so.14                    .
+cp /lib64/libdumb.so.2                     .
+cp /lib64/libopenal.so.1                   .
+cp /lib64/libportaudio.so.2                .
+

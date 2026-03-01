@@ -26,7 +26,6 @@ protected:
     ALLEGRO_TIMER* m_timer;
     ALLEGRO_EVENT_QUEUE* m_queue;
     ALLEGRO_DISPLAY* m_disp;
-    ALLEGRO_FONT* m_font;
     Graphics m_graphics;
     Texture m_texture;
     unsigned char m_key[ALLEGRO_KEY_MAX];

@@ -33,6 +33,7 @@ public:
     int getVirualResolutionWidth();
     int getVirualResolutionHeight();
     void fadeIn(int duration);
+    ALLEGRO_FONT* getFont() const { return m_font; }
 private:
     int m_elapsed = 0;
     int m_duration = 0; 

@@ -21,6 +21,10 @@ class Camera
         void setSmooth(float smooth) { m_smooth = smooth; }
         void enableFollowTarget(bool enable) { m_followTarget = enable; }
         void setPosition(const Vector2& pos) { m_position = pos; }
+        void useCamera();
+        Vector2 getPosition() const { return m_position; }
+        Vector2 getRenderPosition() const { return Vector2(m_position.x + m_offset.x, m_position.y + m_offset.y); }
+        Vector2 minPosition;
     protected:
         ALLEGRO_TRANSFORM m_transform;
         GameObject *m_target;

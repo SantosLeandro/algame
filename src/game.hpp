@@ -10,6 +10,7 @@
 #include "game/objectfactory.hpp"
 #include "core/texturemanager.hpp"
 #include "game/maploader.hpp"
+#include "game/world.hpp"
 
 
 class Game: public ALGame
@@ -26,6 +27,7 @@ public:
     Button *button;
     std::string text;
     Level *level;
+    World * world;
     Camera guiCamera;
     TextureManager m_textureManager;
     MapLoader m_mapLoader;

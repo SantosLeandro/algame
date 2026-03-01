@@ -98,11 +98,6 @@ void Player::update()
 
 void Player::render(Graphics &graphics)
 {
-    if(fadeIn) {
-        graphics.fadeIn(200); // 1 second fade-in
-        fadeIn = false; // reset fade-in flag
-    }
-
     if(velocity.x != 0.0f && velocity.y >= 0.0f && velocity.y < 1.0f)
     {
         animationController.setCurrentAnimation("walk");
@@ -133,6 +128,7 @@ void Player::onTileCollision(int tile , int signX, int signY)
 void Player::onCollision(GameObject* other)
 {
     printf("Player collided with object: %s\n", other->getTag().c_str());
+    
     if(other->getTag() == "door"){
         auto next = other->getAttribute("next");
         //concat do next with "level//" and ".json"
@@ -147,9 +143,12 @@ void Player::onCollision(GameObject* other)
                 } else if(velocity.x < 0) {
                     doorPos.x -= boundingBox.w;
                 }
-                setPosition(Vector2(doorPos.x - boundingBox.x , doorPos.y - boundingBox.y));
+                //LevelManager::getInstance().getCurrentLevel()->getCamera().setSmooth(0.01f);
+                setPosition(Vector2(doorPos.x - boundingBox.x , doorPos.y - boundingBox.y + 17));
+                //LevelManager::getInstance().getCurrentLevel()->setCameraTarget(nullptr);
                 LevelManager::getInstance().getCurrentLevel()->getCamera().setPosition(doorPos);
-                fadeIn = true;
+                //LevelManager::getInstance().getCurrentLevel()->fadeIn();
+                
             }
         LevelManager::getInstance().getCurrentLevel()->m_player = this;
         LevelManager::getInstance().getCurrentLevel()->getCamera().setTarget(this);

@@ -24,7 +24,7 @@ void Game::initialize()
         Vector2(426, 20.0f),
         "Items: 0   Health: 100%   Ammo: 50",
         m_graphics, 
-        Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_font}
+        Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_graphics.getFont()}
     );
     dialogBox->setBackgroundColor(Color{0.0f, 0.0f, 0.0f, 1.0f});
 
@@ -68,8 +68,8 @@ void Game::initialize()
     
     
    
-    LevelManager::getInstance().loadLevel("level//room_01.json",m_graphics, m_textureManager, factory);
-    LevelManager::getInstance().loadLevel("level//room_02.json",m_graphics, m_textureManager, factory);
+    // LevelManager::getInstance().loadLevel("level//room_01.json",m_graphics, m_textureManager, factory);
+    // LevelManager::getInstance().loadLevel("level//room_02.json",m_graphics, m_textureManager, factory);
     //LevelManager::getInstance().loadLevel("level//room_02.json",m_graphics, m_textureManager, factory);
     //LevelManager::getInstance().getCurrentLevel()->m_player = &player;
     //level = m_mapLoader.load("level//demolevel.json",m_graphics, m_textureManager, factory);
@@ -87,13 +87,20 @@ void Game::initialize()
     // level->addGameObject(factory.create("enemy1", Vector2(250,50),m_textureManager));
 
     text = "Hello, ALGame!";
+
+    world = new World();
+    world->loadRoomFromFile("world//world01.json",&m_textureManager);
+   
+    world->setCurrentRoom("Room_3");
+    world->initialize(m_graphics);
     // level->getCamera().setSmooth(0.05f);
     // level->getCamera().moveTo(Vector2(500,500));
 }
 
 void Game::update()
 {
-    LevelManager::getInstance().getCurrentLevel()->update();
+    world->update();
+    //LevelManager::getInstance().getCurrentLevel()->update();
     // level->update();
     // player.update();
     // //tileMap->checkCollision(player);
@@ -114,7 +121,8 @@ void Game::render()
     // al_use_transform(&transform);
     //game rendering code here
     m_graphics.clear();
-    LevelManager::getInstance().getCurrentLevel()->render(m_graphics);
+    world->render(m_graphics);
+    //LevelManager::getInstance().getCurrentLevel()->render(m_graphics);
     // level->render(m_graphics);
     // tileMap->render(m_graphics,0,0);
     // player.render(m_graphics);

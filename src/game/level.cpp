@@ -54,19 +54,17 @@ void Level::update()
 void Level::render(Graphics &graphics)
 {
     m_camera.update();
-    // if(m_transitioning && elapsed < duration) {
-    //     elapsed += 16; // Assuming 60 FPS, adjust as needed
-        
-    // } else {
-        
-    //     m_transitioning = false;
-    //     elapsed = 0;
-       
-    // }
     m_mainTilemap->render(graphics,0,0);
     for(auto &go: m_gameObjects){
         
         go->render(graphics);
+    }
+    if(m_transitioning && m_elapsed > 0) {
+        m_elapsed -= 0.016f; // Assuming 60 FPS, adjust as needed
+        graphics.drawRectangle(0,0, graphics.getVirualResolutionWidth(), graphics.getVirualResolutionHeight(), Color{0.0f, 0.0f, 0.0f, m_elapsed});
+    } else {
+        m_transitioning = false;
+        m_elapsed = 1.0f;
     }
     m_player->render(graphics);
 }
@@ -105,7 +103,9 @@ bool Level::checkCollision(GameObject &a, GameObject &b)
             ay + ah > by);
 }
 
-void Level::transition()
+void Level::fadeIn()
 {
+    m_elapsed = 1.0f;
     m_transitioning = true;
+    fadeInPosition = m_camera.getPosition();
 }

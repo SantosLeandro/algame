@@ -66,8 +66,8 @@ void Camera::update()
     float renderX = floor(m_position.x) + m_offset.x;
     float renderY = floor(m_position.y) + m_offset.y;
 
-    renderX = std::max(0.0f, std::min(renderX, static_cast<float>(m_maxW - m_w)));
-    renderY = std::max(0.0f, std::min(renderY, static_cast<float>(m_maxH - m_h)));
+    renderX = std::max(minPosition.x, std::min(renderX, static_cast<float>(m_maxW - m_w + minPosition.x)));
+    renderY = std::max(minPosition.y, std::min(renderY, static_cast<float>(m_maxH - m_h + minPosition.y)));
 
     al_identity_transform(&m_transform);
     al_translate_transform(&m_transform, -renderX, -renderY);
@@ -78,4 +78,9 @@ void Camera::moveTo(const Vector2 &pos)
 {
     m_positionTarget = pos;
     m_followTarget = false;
+}
+
+void Camera::useCamera()
+{
+    al_use_transform(&m_transform);
 }
