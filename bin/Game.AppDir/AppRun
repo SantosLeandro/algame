@@ -1,5 +1,0 @@
-#!/bin/bash
-HERE="$(dirname "$(readlink -f "$0")")"
-cd "$HERE/usr/bin" || exit 1
-export LD_LIBRARY_PATH="$HERE/usr/lib:$LD_LIBRARY_PATH"
-exec ./game
