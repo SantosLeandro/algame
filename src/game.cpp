@@ -17,7 +17,9 @@ void Game::initialize()
     m_graphics.setVirtualResolution(426,240);
    
     m_textureManager.load("texture//samus.png");
+    m_textureManager.load("texture//devil.png");
     m_textureManager.load("texture//tileset_1616.png");
+    m_textureManager.load("texture//tileset.png");
     player = Player(Vector2(100.0f, 100.0f), m_textureManager.get("texture//samus.png"));
     dialogBox = new DialogBox(
         Vector2(0.0f, 0.0f), 
