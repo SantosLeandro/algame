@@ -55,9 +55,9 @@ void World::update()
     m_player->setPosition(m_player->getPosition() + m_currentRoom->position);
 
     // aplicar movimento final
-    m_player->setPosition(
-        m_player->getPosition() + m_player->getVelocity()
-    );
+    // m_player->setPosition(
+    //     m_player->getPosition() + m_player->getVelocity()
+    // );
 
     if (m_currentRoom)
     {

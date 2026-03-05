@@ -75,6 +75,11 @@ void Tilemap::processCollision(GameObject &obj)
         }
     }
 
+    obj.setPosition(Vector2(
+        obj.getPosition().x,
+        obj.getPosition().y + obj.getVelocity().y
+    ));
+
     if(rectCollides(obj.getPosition().x + obj.getBoundingBox().x + obj.getVelocity().x,
                     obj.getPosition().y + obj.getBoundingBox().y,
                     w,
@@ -102,6 +107,11 @@ void Tilemap::processCollision(GameObject &obj)
             }
         }
     }
+
+    obj.setPosition(Vector2(
+        obj.getPosition().x + obj.getVelocity().x,
+        obj.getPosition().y
+    ));
     
 }
 
