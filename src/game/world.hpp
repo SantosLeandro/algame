@@ -48,6 +48,7 @@ private:
 
     Room* m_currentRoom = nullptr;
     Player* m_player;
+    bool m_roomTransition = false;
 };
 
 static std::vector<std::vector<int>> parseTileData(

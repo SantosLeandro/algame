@@ -24,7 +24,15 @@ void Joystick::initialize()
 void Joystick::reset()
 {
     m_buttons.fill(false);
+    m_preessedButtons.fill(false);
+    m_releasedButtons.fill(false);
     m_axes.fill(0.0f); 
+}
+
+void Joystick::clearState()
+{
+    m_preessedButtons.fill(false);
+    m_releasedButtons.fill(false);
 }
 
 void Joystick::update(ALLEGRO_EVENT &event)
@@ -32,11 +40,13 @@ void Joystick::update(ALLEGRO_EVENT &event)
     switch (event.type)
     {
     case ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN:
-        m_buttons[(int)mapButton(event.joystick.button)] = true;
+        //m_buttons[(int)mapButton(event.joystick.button)] = true;
+        this->press(mapButton(event.joystick.button));
         break;
 
     case ALLEGRO_EVENT_JOYSTICK_BUTTON_UP:
-        m_buttons[(int)mapButton(event.joystick.button)] = false;
+        //m_buttons[(int)mapButton(event.joystick.button)] = false;
+        this->release(mapButton(event.joystick.button));
         break;
 
     case ALLEGRO_EVENT_JOYSTICK_AXIS:
@@ -53,10 +63,18 @@ void Joystick::update(ALLEGRO_EVENT &event)
 
 void Joystick::press(JoystickButton button)
 {
+    int i = (int)button;
+    if (!m_buttons[i])
+        m_preessedButtons[i] = true;
+    m_buttons[i] = true;
 }
 
 void Joystick::release(JoystickButton button)
 {
+    int i = (int)button;
+    if (m_buttons[i])
+        m_releasedButtons[i] = true;
+    m_buttons[i] = false;
 }
 
 bool Joystick::isButtonDown(JoystickButton button) const
@@ -66,7 +84,7 @@ bool Joystick::isButtonDown(JoystickButton button) const
 
 bool Joystick::isButtonPressed(JoystickButton button) const
 {
-    return false;
+    return m_preessedButtons[(int)button];
 }
 
 bool Joystick::isButtonReleased(JoystickButton button) const

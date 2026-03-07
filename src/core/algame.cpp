@@ -96,6 +96,7 @@ void ALGame::run()
             case ALLEGRO_EVENT_TIMER:
                 update();
                 Input::getInstance().update();
+                Joystick::getInstance().clearState();
                 redraw = true;
                 break;
             case ALLEGRO_EVENT_KEY_DOWN:

@@ -42,6 +42,8 @@ public:
     void initialize();
     void update(ALLEGRO_EVENT &event);
 
+    void clearState();
+
     void press(JoystickButton button);
     void release(JoystickButton button);
 
@@ -63,6 +65,8 @@ private:
     Joystick &operator=(const Joystick &) = delete;
 
     std::array<bool, (int)JoystickButton::COUNT> m_buttons;
+    std::array<bool, (int)JoystickButton::COUNT> m_preessedButtons;
+    std::array<bool, (int)JoystickButton::COUNT> m_releasedButtons;
     std::array<float, 6> m_axes;
     bool m_connected;
 };

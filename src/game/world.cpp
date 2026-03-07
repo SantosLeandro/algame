@@ -29,6 +29,12 @@ void World::update()
     if (!m_player)
         return;
 
+
+    if(m_camera.isFollowingTarget()){
+        m_roomTransition = false;
+    }
+
+    //if(!m_roomTransition)
     m_player->update();
 
     // detectar room do player
@@ -41,23 +47,36 @@ void World::update()
         m_camera.minPosition.y = m_currentRoom->position.y;
         m_camera.setMaxWidth(m_currentRoom->tilemap->getMapWidth() * m_currentRoom->tilemap->getTileWidth());
         m_camera.setMaxHeight(m_currentRoom->tilemap->getMapHeight() * m_currentRoom->tilemap->getTileHeight());
+
+        // centro da nova room
+        int signX = (m_player->getPosition().x > m_currentRoom->position.x) ? 1 : -1;
+        int signY = (m_player->getPosition().y > m_currentRoom->position.y) ? 1 : -1;
+        Vector2 center;
+        center.x = m_player->getPosition().x;
+
+        center.y = m_player->getPosition().y;
+
+        m_camera.moveTo(center);
+        m_roomTransition = true;
     }
 
-   // converter player para espaço da room
-    Vector2 worldPos = m_player->getPosition();
-    Vector2 localPos = worldPos - m_currentRoom->position;
+    //if(!m_roomTransition) {
+    // converter player para espaço da room
+        Vector2 worldPos = m_player->getPosition();
+        Vector2 localPos = worldPos - m_currentRoom->position;
 
-    m_player->setPosition(localPos);
+        m_player->setPosition(localPos);
 
-    m_currentRoom->tilemap->processCollision(*m_player);
+        m_currentRoom->tilemap->processCollision(*m_player);
 
-    // voltar para espaço do mundo
-    m_player->setPosition(m_player->getPosition() + m_currentRoom->position);
+        // voltar para espaço do mundo
+        m_player->setPosition(m_player->getPosition() + m_currentRoom->position);
 
-    // aplicar movimento final
-    // m_player->setPosition(
-    //     m_player->getPosition() + m_player->getVelocity()
-    // );
+        // aplicar movimento final
+        // m_player->setPosition(
+        //     m_player->getPosition() + m_player->getVelocity()
+        // );
+    //}
 
     if (m_currentRoom)
     {
