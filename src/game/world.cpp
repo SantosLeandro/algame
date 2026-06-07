@@ -7,6 +7,7 @@ using json = nlohmann::json;
 
 World::World()
 {
+    m_player = nullptr;
 }
 
 World::~World()
