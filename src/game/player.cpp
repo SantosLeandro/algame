@@ -66,7 +66,7 @@ void Player::update()
     }
    
     velocity.y = std::min(velocity.y, 5.0f); // terminal velocity
-    if(Input::getInstance().isKeyPressed(Key::UP) || Joystick::getInstance().isButtonPressed(JoystickButton::NONE))
+    if(Input::getInstance().isKeyPressed(Key::UP) && isOnGround())
     {
         // if(velocity.y >= 0 && velocity.y < 1.0f) {
             velocity.y -= 6.5f;

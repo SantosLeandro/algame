@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=MyGame
+Exec=game
+Icon=MyGame
+Type=Application
+Categories=Game;

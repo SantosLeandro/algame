@@ -45,7 +45,22 @@ void Tilemap::render(Graphics &graphics, int offsetX, int offsetY)
 
 void Tilemap::processCollision(GameObject &obj)
 {
-    obj.setOnGround(false);
+
+    // ver se tem um tile abaixo do objeto  
+    if(rectCollides(obj.getPosition().x + obj.getBoundingBox().x,
+                    obj.getPosition().y + obj.getBoundingBox().y + 1,
+                    obj.getBoundingBox().w,
+                    obj.getBoundingBox().h))
+    {
+        // se tiver, o objeto está no chão
+        obj.setOnGround(true);
+    }
+    else
+    {
+        // se não tiver, o objeto está no ar
+        obj.setOnGround(false);
+    }
+   
     int w = obj.getBoundingBox().w;
     int h = obj.getBoundingBox().h;
     if(rectCollides(obj.getPosition().x + obj.getBoundingBox().x,
@@ -68,7 +83,7 @@ void Tilemap::processCollision(GameObject &obj)
             }
             else
             {
-                obj.setOnGround(sign > 0); // opcional
+                // obj.setOnGround(sign > 0); // opcional
                 obj.setVelocity(Vector2(obj.getVelocity().x, 0));
                 break;
             }

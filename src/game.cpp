@@ -20,14 +20,18 @@ void Game::initialize()
     m_textureManager.load("texture//devil.png");
     m_textureManager.load("texture//tileset_1616.png");
     m_textureManager.load("texture//tileset.png");
+
+    std::cout << "Textures loaded" << std::endl;
     player = Player(Vector2(100.0f, 100.0f), m_textureManager.get("texture//samus.png"));
     dialogBox = new DialogBox(
         Vector2(0.0f, 0.0f), 
         Vector2(426, 20.0f),
-        "Items: 0   Health: 100%   Ammo: 50",
+        "Items: 0   Health: 100%   Bullets: 50",
         m_graphics, 
         Font{Color{1.0f, 1.0f, 1.0f, 1.0f}, 16,m_graphics.getFont()}
     );
+
+   
     dialogBox->setBackgroundColor(Color{0.0f, 0.0f, 0.0f, 1.0f});
 
     guiCamera = Camera(nullptr, 426, 240);
@@ -56,6 +60,8 @@ void Game::initialize()
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
         {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
     };
+
+    std::cout << "Tile data created" << std::endl;
 
     // Texture* tileset = new Texture();
     // tileset->loadFromFile("texture//tileset.png");
@@ -90,8 +96,14 @@ void Game::initialize()
 
     text = "Hello, ALGame!";
 
+    std::cout << "Game objects created" << std::endl;
+
     world = new World();
     world->loadRoomFromFile("world//world01.json",&m_textureManager);
+    
+
+    std::cout << "World loaded" << std::endl;
+
    
     world->setCurrentRoom("Room_3");
     world->initialize(m_graphics);

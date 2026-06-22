@@ -110,6 +110,8 @@ void World::render(Graphics &graphics)
 
 void World::loadRoomFromFile(const std::string &file, TextureManager *texturemanager)
 {
+
+    std::cout << "Loading world from file: " << file << std::endl;
     std::ifstream f(file);
     if (!f.is_open())
         return;
@@ -142,6 +144,11 @@ void World::loadRoomFromFile(const std::string &file, TextureManager *textureman
 
             auto tiles = parseTileData(data, layer["width"].get<int>(), layer["height"].get<int>());
 
+            std::cout << "Creating tilemap for room: " << room->name << std::endl;
+            std::cout << "Tilemap size: " << tiles[0].size() << "x" << tiles.size() << std::endl;
+            std::cout << "Using texture: " << texture << std::endl;
+
+
             room->tilemap = std::make_unique<Tilemap>(
                 tiles,
                 texturemanager->get("texture//"+texture),
@@ -156,6 +163,8 @@ void World::loadRoomFromFile(const std::string &file, TextureManager *textureman
             // );
 
             auto gameObjects = layer["gameobject"];
+
+            std::cout << gameObjects.size() << " game objects found in layer" << std::endl;
             for (auto &go : gameObjects)
             {
                 std::string name = go["name"].get<std::string>();
@@ -165,7 +174,6 @@ void World::loadRoomFromFile(const std::string &file, TextureManager *textureman
                 if (name == "player")
                 {
                     if (!m_player)
-                        //Texture *tex = texturemanager->get("texture//samus.png");
                         m_player = new Player(Vector2(x,y), texturemanager->get("texture//samus.png"));
 
                     m_player->setPosition(Vector2(x, y));
@@ -186,6 +194,8 @@ void World::loadRoomFromFile(const std::string &file, TextureManager *textureman
 
         m_rooms[room->name] = std::move(room);
     }
+
+    std::cout << "Finished loading world from file: " << file << std::endl;
 }
 
 Room* World::getRoomFromPlayerPosition(const Vector2& pos)
