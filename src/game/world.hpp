@@ -6,6 +6,7 @@
 #include "gameobject.hpp"
 #include "player.hpp"
 #include "camera.hpp"
+#include "objectfactory.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -16,12 +17,13 @@ struct Room
 {
     std::string name;
     std::vector<std::unique_ptr<GameObject>> gameObjects;
-    std::unique_ptr<Tilemap> tilemap;
+    std::unique_ptr<Tilemap> tilemap = nullptr;
 
     Vector2 position;
     int width = 0;
     int height = 0;
     int tilesize = 16;
+    std::unordered_map<std::string, std::unique_ptr<Tilemap>> m_layers;
 };
 
 class World
@@ -35,6 +37,7 @@ public:
     void render(Graphics &graphics);
 
     void loadRoomFromFile(const std::string &file, TextureManager *texturemanager);
+    void loadFromSnapFile(const std::string &file, TextureManager *texturemanager, GameObjectFactory &factory);
     Room* getRoomFromPlayerPosition(const Vector2& pos);
     Room* getRoom(const std::string& name);
     Room* getCurrentRoom();

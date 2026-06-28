@@ -99,13 +99,13 @@ void Game::initialize()
     std::cout << "Game objects created" << std::endl;
 
     world = new World();
-    world->loadRoomFromFile("world//world01.json",&m_textureManager);
+    world->loadFromSnapFile("world//demo.snap",&m_textureManager, factory);
     
 
     std::cout << "World loaded" << std::endl;
 
    
-    world->setCurrentRoom("Room_3");
+    world->setCurrentRoom("Room_001");
     world->initialize(m_graphics);
     // level->getCamera().setSmooth(0.05f);
     // level->getCamera().moveTo(Vector2(500,500));

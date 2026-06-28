@@ -16,13 +16,18 @@ World::~World()
 
 void World::initialize(Graphics &graphics)
 {
+    std::cout << "Initializing world" << std::endl;
     m_camera.setTarget(m_player);
     m_camera.setWidth(graphics.getVirualResolutionWidth());
     m_camera.setHeight(graphics.getVirualResolutionHeight());
+    if (!m_currentRoom) return;
     m_camera.minPosition.x = m_currentRoom->position.x;
     m_camera.minPosition.y = m_currentRoom->position.y;
-    m_camera.setMaxWidth(m_currentRoom->tilemap->getMapWidth() * m_currentRoom->tilemap->getTileWidth());
-    m_camera.setMaxHeight(m_currentRoom->tilemap->getMapHeight() * m_currentRoom->tilemap->getTileHeight());
+    if (m_currentRoom->m_layers.find("Ground") != m_currentRoom->m_layers.end()) {
+        m_camera.setMaxWidth(m_currentRoom->m_layers["Ground"]->getMapWidth() * m_currentRoom->m_layers["Ground"]->getTileWidth());
+        m_camera.setMaxHeight(m_currentRoom->m_layers["Ground"]->getMapHeight() * m_currentRoom->m_layers["Ground"]->getTileHeight());
+    }
+    std::cout << "Finished initializing world" << std::endl;
 }
 
 void World::update()
@@ -41,13 +46,24 @@ void World::update()
     // detectar room do player
     Room* newRoom = getRoomFromPlayerPosition(m_player->getPosition());
 
+    if(newRoom && newRoom != m_currentRoom)
+    {
+        std::cout << "Player moved to new room: " << newRoom->name << std::endl;
+    }
+
+
     if (newRoom && newRoom != m_currentRoom)
     {
-        m_currentRoom = newRoom;
+        std::cout << "Transitioning to new room: " << newRoom->name << std::endl;
+        
+        setCurrentRoom(newRoom->name);
+        // m_currentRoom = newRoom;
         m_camera.minPosition.x = m_currentRoom->position.x;
         m_camera.minPosition.y = m_currentRoom->position.y;
-        m_camera.setMaxWidth(m_currentRoom->tilemap->getMapWidth() * m_currentRoom->tilemap->getTileWidth());
-        m_camera.setMaxHeight(m_currentRoom->tilemap->getMapHeight() * m_currentRoom->tilemap->getTileHeight());
+        if (m_currentRoom->m_layers.find("Ground") != m_currentRoom->m_layers.end()) {
+            m_camera.setMaxWidth(m_currentRoom->m_layers["Ground"]->getMapWidth() * m_currentRoom->m_layers["Ground"]->getTileWidth());
+            m_camera.setMaxHeight(m_currentRoom->m_layers["Ground"]->getMapHeight() * m_currentRoom->m_layers["Ground"]->getTileHeight());
+        }
 
         // centro da nova room
         int signX = (m_player->getPosition().x > m_currentRoom->position.x) ? 1 : -1;
@@ -68,7 +84,9 @@ void World::update()
 
         m_player->setPosition(localPos);
 
-        m_currentRoom->tilemap->processCollision(*m_player);
+        if (m_currentRoom->m_layers.find("Ground") != m_currentRoom->m_layers.end()) {
+            m_currentRoom->m_layers["Ground"]->processCollision(*m_player);
+        }
 
         // voltar para espaço do mundo
         m_player->setPosition(m_player->getPosition() + m_currentRoom->position);
@@ -94,8 +112,10 @@ void World::render(Graphics &graphics)
     if (!m_currentRoom)
         return;
 
-    if (m_currentRoom->tilemap) {
-        m_currentRoom->tilemap->render(graphics,m_currentRoom->position.x,m_currentRoom->position.y);
+    for (auto &layer : m_currentRoom->m_layers) {
+        if (layer.second) {
+            layer.second->render(graphics, m_currentRoom->position.x, m_currentRoom->position.y);
+        }
     }
         
 
@@ -196,6 +216,106 @@ void World::loadRoomFromFile(const std::string &file, TextureManager *textureman
     }
 
     std::cout << "Finished loading world from file: " << file << std::endl;
+}
+
+void World::loadFromSnapFile(const std::string &file, TextureManager *texturemanager, GameObjectFactory &factory)
+{
+    std::cout << "Loading world from snap file: " << file << std::endl;
+    std::ifstream f(file);
+    if (!f.is_open()) {
+        std::cerr << "Failed to open snap file: " << file << std::endl;
+        return;
+    }
+
+    json j;
+    f >> j;
+
+    int defaultTileSize = j.value("defaultTileSize", 16);
+
+    auto &rooms = j["rooms"];
+    for (auto &r : rooms) {
+        auto room = std::make_unique<Room>();
+
+        room->name = r["name"].get<std::string>();
+        room->width = r["width"].get<int>();
+        room->height = r["height"].get<int>();
+        room->tilesize = defaultTileSize;
+        room->position.x = r.value("x", 0);
+        room->position.y = r.value("y", 0);
+
+        std::cout << "Loading room: " << room->name << " at position (" << room->position.x << ", " << room->position.y << ")" << std::endl;
+
+        auto &layers = r["layers"];
+        for (auto &layer : layers) {
+            if (!layer.value("visible", true))
+                continue;
+
+            std::string tileset = layer.value("tileset", "");
+
+            if (!tileset.empty()) {
+                std::string tilesData = layer["tiles"].get<std::string>();
+                auto tiles = parseTileData(tilesData, room->width, room->height);
+
+
+                //fix temporario pegar o nome do arquivo sem assets
+               
+                    tileset = tileset.substr(7);
+                
+
+                std::string texKey = "texture//" + tileset;
+
+                std::cout << "Loading tileset texture: " << texKey << std::endl;
+
+                Texture *tex = texturemanager->get(texKey);
+                if (!tex) {
+                    texturemanager->load(texKey);
+                    tex = texturemanager->get(texKey);
+                }
+
+                auto tilemap = std::make_unique<Tilemap>(
+                    tiles, tex, room->tilesize, room->tilesize
+                );
+
+                //se o layer for ground, setar o tilemap como tilemap principal da room
+
+
+        
+                room->m_layers[layer.value("name", "")] = std::move(tilemap);
+            
+            }
+
+            if (layer.contains("objects")) {
+                for (auto &obj : layer["objects"]) {
+                    std::string type = obj["type"].get<std::string>();
+                    int x = obj["x"].get<int>() + room->position.x;
+                    int y = obj["y"].get<int>() + room->position.y;
+
+                    if (type == "player") {
+                        std::cout << "Setting player position to: (" << x << ", " << y << ")" << std::endl;
+                        if (!m_player) {
+                            m_player = new Player(Vector2(x, y), texturemanager->get("texture//samus.png"));
+                        }
+                        m_player->setPosition(Vector2(x, y));
+                    } else {
+                        auto *gameObj = factory.create(type, Vector2(x, y), *texturemanager);
+                        if (obj.contains("name"))
+                            gameObj->setName(obj["name"].get<std::string>());
+                        else
+                            gameObj->setName(type);
+                        gameObj->setPosition(Vector2(x, y));
+                        room->gameObjects.push_back(std::unique_ptr<GameObject>(gameObj));
+                    }
+                }
+            }
+        }
+
+        if (!m_currentRoom)
+            m_currentRoom = room.get();
+
+        m_rooms[room->name] = std::move(room);
+    }
+
+    std::cout << "Finished loading snap file: " << file << std::endl;
 }
 
 Room* World::getRoomFromPlayerPosition(const Vector2& pos)
