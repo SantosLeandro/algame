@@ -252,6 +252,8 @@ void World::loadFromSnapFile(const std::string &file, TextureManager *textureman
 
             std::string tileset = layer.value("tileset", "");
 
+            std::cout << "Loading layer: " << layer.value("name", "") << " with tileset: " << tileset << std::endl;
+
             if (!tileset.empty()) {
                 std::string tilesData = layer["tiles"].get<std::string>();
                 auto tiles = parseTileData(tilesData, room->width, room->height);
@@ -259,7 +261,7 @@ void World::loadFromSnapFile(const std::string &file, TextureManager *textureman
 
                 //fix temporario pegar o nome do arquivo sem assets
                
-                    tileset = tileset.substr(7);
+                tileset = tileset.substr(7);
                 
 
                 std::string texKey = "texture//" + tileset;

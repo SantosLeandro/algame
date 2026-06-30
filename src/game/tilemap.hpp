@@ -17,7 +17,7 @@ public:
     bool isSolidTile(int tileX, int tileY) const {
         if (tileY < 0 || tileY >= m_mapHeight || tileX < 0 || tileX >= m_mapWidth)
             return false;
-        return m_tiles[tileY][tileX] > 0;
+        return m_tiles[tileY][tileX] > -1;
     }
 
     void processCollision(GameObject &obj);
